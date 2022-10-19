@@ -1,0 +1,115 @@
+const svg = d3.select('.canvas')
+    .append('svg')
+    .attr('width',600)
+    .attr('height',600)
+
+    //create a group => creates margins from svg container
+    const margin = {top:20, right:20, bottom:100, left:100}; // values are in pixel
+    const graphWidth = 600 - margin.left - margin.right;
+    const graphHeight = 600 - margin.top - margin.bottom;
+
+    // create margins from the container
+    const graph = svg.append('g')
+        .attr('width',graphWidth)
+        .attr('height', graphHeight)
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+        //.attr('transform','rotate(90)');
+
+
+    graph.append('rect');
+    graph.append('rect');
+    graph.append('rect'); 
+    graph.append('rect'); 
+    graph.append('rect'); 
+    graph.append('rect'); 
+    graph.append('rect'); //7 rects for 5 data. 2 will be in exit selection
+
+    // group for x axis and y axis elements
+    const xAxisGroup = graph.append('g')
+        .attr('transform', `translate(0, ${graphHeight})`); // should be in bottom
+    const yAxisGroup = graph.append('g')
+
+    //Defines Scales that doesnt depend on data
+    const y = d3.scaleLinear()
+        .range([graphHeight,0]) // 0 to max height of graph. Scale is reversed.
+
+    const x = d3.scaleBand()
+        .range([0,500])
+        .paddingInner(0.2) 
+        .paddingOuter(0.3); 
+
+    // create axis
+    const xAxis = d3.axisBottom(x); 
+    const yAxis = d3.axisLeft(y)
+        .ticks(3) 
+        .tickFormat(d=>d+ ' orders') // d does not depend on data. if it does, it should go inside update function
+    
+    // doesnt depend on data
+    xAxisGroup.selectAll('text')
+        .attr('transform', 'rotate(-40)')
+        .attr('text-anchor', 'end') //start, middle of end. Take the end of text and rotate it.
+        .attr('fill', 'orange');
+
+
+    //D3 Update Pattern
+    // the stuffs that draws the graph
+    const update = (data) => {
+
+        //1. Update the scales (domains) if they rely on data
+        y.domain([0,d3.max(data, d=>d.orders)]);
+        x.domain(data.map(item => item.name));
+
+        //2. Join the updated data to the elements
+        const rects = graph.selectAll('rect')
+            .data(data);
+        //console.log(rects); //enter selection and exit selection. exit selection remaining rects that dont have data
+
+
+        //3. Remove extra elements. If someone reduces the entries in database
+        rects.exit().remove();
+
+        //4. Update the current shapes in dom (attributes)
+        rects.attr('width',x.bandwidth) 
+            .attr('height', d=> graphHeight - y(d.orders))
+            .attr('fill','orange')
+            .attr('x', d=>x(d.name)) 
+            .attr('y', d=>y(d.orders)); // top edge of the rect
+
+        //5. Append the enter selection.eg, if someone adds data
+        rects.enter()
+            .append('rect')
+            .attr('width',x.bandwidth)
+            .attr('height', d=> graphHeight - y(d.orders))
+            .attr('fill','orange')
+            .attr('x', (d) => x(d.name))
+            .attr('y', d=>y(d.orders));
+
+        //6.call axis based on new data
+        xAxisGroup.call(xAxis);
+        yAxisGroup.call(yAxis);
+
+    };
+
+    db.collection('dishes').get().then(res => {
+        //console.log(res);
+        var data = [];
+        res.docs.forEach(doc => {
+            //console.log(doc.data());
+            data.push(doc.data());
+        });
+    
+
+        // run update
+       update(data);
+
+       // update every second or 2..
+       // takes in a call back function that fires every 1000 ms ~ 1s
+       d3.interval(()=>{
+            //data[2].orders += 50;
+            update(data);
+       },1000);
+
+    
+    })
+
+

@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja Wonga</title>
+
+    <!-- all external style sheets come in the head before your own styles -->
+     <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+     <!-- style sheet for tool tip -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bumbeishvili/d3-tip-for-v6@4/d3-tip.min.css" />
+     <style>
+         h2, p{
+             /* 10px margin top and bottom 0 left and right */
+             /* adjusts the custom margiin inside matirialize defaults */
+             margin: 10px 0; 
+         }
+         header{
+             margin-bottom: 40px;
+         }
+
+         .d3-tip .delete{
+             color:hotpink;
+         }
+     </style>
+</head>
+<body class="indigo"> 
+    <!-- body class color classes: creates a background color indigo -->
+
+    <header class="indigo darken-1 section">
+        <!-- darken makes color darker by grad 1 -->
+        <!-- section leaves no space at the top. ootherwise there is a space -->
+        <h2 class="center white-text">Ninja Wonga</h2>
+        <!-- flow text makes it bigger -->
+        <p class="flow-text grey-text center text-lighten-2"> Monthly Money Tracker for Ninjas ...</p>
+        <!-- text-lighten-2 lightens text by grad 2 -->
+    </header>
+
+    <!-- use materialize css grid system to divide the page into grides
+    we use left half for forms and right half for graphs -->
+    
+    <!-- Materialize is used as a styling template; similar to bootstrap -->
+
+
+    <!-- container class brings everything to the center column on the page -->
+    <div class="container section">
+        <!-- now a section on the left and section on the right -->
+        <div class="row">
+            <!-- on small screens 12 column width; which is full screen. on medium screens, it should take up half column width with is 6 -->
+            <div class="col s12 m6">
+                <!-- card formats the form -->
+                <!-- card has drop shadow. z-dept-0 => no drop shadow -->
+                <form class="card z-depth-0">
+                    <div class="card-content">
+                        <!-- card content class adds padding -->
+                        <span class="card-title indigo-text"> Add Item:</span>
+                        <div class="input-field">
+                            <input type="text" id="name">
+                            <label for="name">Item Name</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" id="cost">
+                            <label for="cost">Item Cost</label>
+                        </div>
+                        <div class="input-field center">
+                            <button class="btn-large pink white-text">Add Item</button>
+                        </div>
+    
+                        <div class="input-field center">
+                            <!-- field to display errors if any -->
+                            <p class="red-text" id="error"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- right side of the row -->
+            <!-- one column left over on the right of the gird. to use that one column space to push the below div to right a little bit using push-m1 -->
+            <!-- now we have a one column width between left and right -->
+            <div class="col s12 m5 push-m1">
+                <div class="canvas">
+                    <!-- our svg element -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+        apiKey: "AIzaSyAUz2ccj1YKHizLedMjwIxdl4BDzUGDwzU",
+        authDomain: "senesence-d3-firebase.firebaseapp.com",
+        projectId: "senesence-d3-firebase",
+        storageBucket: "senesence-d3-firebase.appspot.com",
+        messagingSenderId: "1072435266305",
+        appId: "1:1072435266305:web:96824a0218392abbc7d100",
+        measurementId: "G-G658RVPN8X"
+         };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        db.settings({timestampsInSnapshots: true});
+    </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+     <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- plugins should be below d3 lib and above graph.js where we use the plug in  -->
+    <!-- d3 svg legend plug in -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
+
+    <!-- d3 tool tip plug in  -->
+    <script src="https://unpkg.com/d3-v6-tip@1.0.6/build/d3-v6-tip.js"></script>
+
+    <script src="index.js" ></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="graph.js" ></script>
+</body>
+</html>

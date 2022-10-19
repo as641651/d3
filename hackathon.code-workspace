@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../Celonis-Hackathon"
+		},
+		{
+			"path": "../materialize"
+		},
+		{
+			"path": "../vue"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "d3"
+	}
+}

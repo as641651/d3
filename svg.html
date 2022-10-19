@@ -1,0 +1,55 @@
+<html>
+<body>
+    Hello world
+
+    SVGs - rendered to browsers - scalable vector graphics - you can sclae it without losing quality
+    - very small in file size - very good fro diagrams - logos
+
+    How to create SVG and view it in browser - op1: Adobe photoshop and reference it,
+    op2: use svg tag in html and define shapes and diagrams - we can create different shapes
+
+    <svg width="600" height="600">
+        <rect x="300" y="100" fill="blue" width="100" height="200"></rect>
+        <circle cx='200' cy='200' r='50' fill='pink' stroke="red" stroke-width="2"></circle>
+        <line x1="100" y1="100" x2="120" y2="300" stroke="grey" stroke-width="3"></line>
+       
+    </svg>
+
+    svg rectangle - x,y = position from top left of rectangle, y=100 => 100 pixel from top of canvas. x= 400 => 400 px from left
+    width, height -- params
+    fill - color, stroke - border color, stroke-width = size
+
+    svg circle - cx and cy - position to center of circle
+    svg line - end points of line x1, y1, x2, y2; no fill color, only stroke
+
+    op3: what we do in this course. Use libraries such as D3 in js to create SVG.
+    much easier to create complex diagrams. svgs can harness power of java script to become dynamic - interaactive diagrams
+
+    idea: with svg you dont have to create manually all basic elements.
+
+    More on SVGs -- What about complex shapes -- use paths. 
+
+    path: params: d - code words:
+    M: moveto this position (start of draw position) M X-coordinate Y-co-ordinate
+    L: lineto (go to this position L X Y) -- sequence of line
+    Z: closepath joins to start position
+
+    There are more letters.. 
+    C: Curveto .. start_x start_y mid_x mid_y end_x end_y
+    H: horizontal line x coord to x
+    V verticle line
+    S: Smooth curve to
+
+    <svg width="600" height="600">
+        <path d="M150 0 L75 200 L225 200 Z" />
+        <path d="M 150 50 L 75 200 L 225 200 C 225 200 150 150 150 50" fill="orange" />
+        <circle cx='150' cy='150' r='5' fill='grey'></circle>
+        <line x1="225" y1="200" x2="150" y2="150" stroke="red" stroke-width="1"></line>
+    </svg>
+
+    Dont worry about generating these strings of numbers. 99% of the time, we are not going to do that ourselves.. we ll use D3 to generate these strings for us.
+    
+    
+</body>
+
+</html>
